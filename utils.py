@@ -1,5 +1,5 @@
 import torch
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, f1_score
 
 class MyDataset(torch.utils.data.Dataset):
     """Custom Dataset wrapper for HuggingFace model ingestion."""
@@ -16,12 +16,14 @@ class MyDataset(torch.utils.data.Dataset):
         return len(self.labels)
 
 def compute_metrics(pred):
-    """Computes basic classification accuracy for the Trainer."""
+    """Computes accuracy and weighted F1 for the Trainer."""
     labels = pred.label_ids
     preds = pred.predictions.argmax(-1)
     acc = accuracy_score(labels, preds)
+    f1 = f1_score(labels, preds, average="weighted")
     return {
         'accuracy': acc,
+        'f1': f1,
     }
 
 def create_label_maps(labels):

@@ -17,7 +17,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 export HF_TOKEN=your_huggingface_token
-export HF_USERNAME=gkumarcertinia
+export HF_USERNAME=g25ait2035
 export WANDB_API_KEY=your_wandb_api_key
 ```
 
@@ -33,12 +33,12 @@ python3 eval.py      # evaluates trained checkpoint and logs metrics/artifacts t
 
 | Metric | Score |
 |-----------|--------|
-| Accuracy | 0.58875 |
-| F1 Score (weighted) | 0.59 |
-| Eval Loss | 1.28033 |
+| Accuracy | 1.00 |
+| F1 Score (weighted) | 1.00 |
+| Eval Loss | 0.00185 |
 
-- Hugging Face model: https://huggingface.co/gkumarcertinia/distilbert-goodreads-genres
-- W&B dashboard: https://wandb.ai/gkumarcertinia/mlops-assignment2
+- Hugging Face model: https://huggingface.co/g25ait2035/distilbert-goodreads-genres
+- W&B dashboard: https://wandb.ai/g25ait2035-prom-iit-rajasthan/mlops-assignment2
 
 ## Repository Contents
 

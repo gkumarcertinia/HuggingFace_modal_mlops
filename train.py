@@ -24,12 +24,17 @@ def run_training():
     batch_size = 16
 
     print("Extracting and tokenizing datasets...")
-    train_dataset, test_dataset, id2label, _ = prepare_data(model_name=model_name, max_length=max_length)
+    train_dataset, test_dataset, id2label, _ = prepare_data(
+        model_name=model_name, max_length=max_length, sample_size=200
+    )
 
     print("Initializing Sequence Classification Architecture...")
+    label2id = {v: k for k, v in id2label.items()}
     model = DistilBertForSequenceClassification.from_pretrained(
-        model_name, 
-        num_labels=len(id2label)
+        model_name,
+        num_labels=len(id2label),
+        id2label=id2label,
+        label2id=label2id,
     )
 
     # Initialize W&B Run
@@ -54,8 +59,9 @@ def run_training():
         warmup_steps=100,
         weight_decay=0.01,
         output_dir='./results',
-        logging_dir='./logs',
         logging_steps=50,
+        eval_strategy="epoch",
+        save_strategy="epoch",
         load_best_model_at_end=True,
         report_to="wandb",
         run_name="distilbert-run-1",
@@ -80,8 +86,8 @@ def run_training():
 
     # Push model and tokenizer to Hugging Face Hub
     print(f"Pushing model to Hugging Face Hub: '{hf_repo_id}'...")
-    trainer.model.push_to_hub(hf_repo_id)
-    tokenizer.push_to_hub(hf_repo_id)
+    trainer.model.push_to_hub(hf_repo_id, private=False)   # public repo
+    tokenizer.push_to_hub(hf_repo_id, private=False)        # same public repo
     print(f"Model and tokenizer successfully pushed to: https://huggingface.co/{hf_repo_id}")
 
     # Log the HF model URL into W&B run summary
