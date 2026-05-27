@@ -1,0 +1,7 @@
+transformers[torch]
+datasets
+wandb
+huggingface_hub
+scikit-learn
+pandas
+accelerate
